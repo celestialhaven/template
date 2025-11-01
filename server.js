@@ -16,7 +16,7 @@ const expressLayouts = require("express-ejs-layouts")
  *************************/
 app.set("view engine", "ejs")
 app.use(expressLayouts)
-app.set("layout", "./layouts/layout") // not at views root
+app.set("layout", "./layouts/layout"); // not at views root
 
 /* ***********************
  * Routes
@@ -39,5 +39,5 @@ app.listen(port, () => {
 
 // Index route
 app.get("/", function (req, res) {
-  res.render("index", {title: "Home"})
+  res.render("index", { title: "Home" })
 })

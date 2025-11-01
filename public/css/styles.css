@@ -4,3 +4,23 @@
 *:after {
   box-sizing: border-box;
 }
+
+:root {
+  --font-heading: "Barlow", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-regular: 400;
+  --font-bold: 600; 
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading)
+}
+
+p,
+li,
+a {
+  font-family: var(--font-body);
+}

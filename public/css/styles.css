@@ -2,6 +2,8 @@
 *,
 *:before,
 *:after {
+  padding: 0;
+  margin: 0;
   box-sizing: border-box;
 }
 
@@ -10,6 +12,10 @@
   --font-body: "Inter", sans-serif;
   --font-regular: 400;
   --font-bold: 600; 
+  --dark: #101012;
+  --gray: #d9d9d9;
+  --light: #f9f9f9;
+  --white: #ffffff;
 }
 
 h1,
@@ -23,4 +29,5 @@ p,
 li,
 a {
   font-family: var(--font-body);
+  text-decoration: none;
 }

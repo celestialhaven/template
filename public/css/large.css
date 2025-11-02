@@ -1,0 +1,25 @@
+@media screen and (min-width: 64em) {
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #wrapper {
+        width: 100%;
+        max-width: 1300px;
+    }
+
+    .details-section {
+        display: flex;
+        justify-content: center;
+        align-items: start;
+    }
+
+    .reviews-section {
+        order: 2;
+    }
+
+    .upgrade-section {
+        order: 1;
+    }
+}

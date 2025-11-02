@@ -1,0 +1,17 @@
+@media screen and (min-width: 48em) {
+    body {
+        background: url(../images/site/small_check.jpg);
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        margin: 120px 80px;
+        align-items: stretch;
+    }
+
+    #wrapper {
+        background-color: var(--white);
+        width: 100%;
+        max-width: 900px;
+        margin-inline: auto;
+}
+}

@@ -2,7 +2,7 @@ CREATE TYPE public.account_type AS ENUM
     ('Client', 'Employee', 'Admin');
 
 ALTER TYPE public.account_type
-    OWNER TO cse340jm;
+    OWNER TO cse340jmdbv1;
 
 -- Table Structure for table `Classification`
 CREATE TABLE public.classification (

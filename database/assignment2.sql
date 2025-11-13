@@ -10,3 +10,13 @@ INSERT INTO public.account (
   'tony@starkent.com',
   'Iam1ronM@n'
 );
+
+-- 2) Change Tony Stark to Admin (replace 7 with your actual Tony account_id)
+UPDATE public.account
+SET account_type = 'Admin'
+WHERE account_id = 7;
+
+
+-- 3) Delete Tony Stark
+DELETE FROM public.account
+WHERE account_id = 7;

@@ -236,3 +236,22 @@ VALUES   (
     'White',
     5
   );
+
+-- 4) Change "small interiors" to "a huge interior" for GM Hummer
+UPDATE inventory
+SET inv_description = REPLACE(inv_description, 'small interiors', 'a huge interior')
+WHERE inv_id = 10; 
+
+-- 5) Make, model, and classification for Sport vehicles
+SELECT i.inv_make,
+       i.inv_model,
+       c.classification_name
+FROM inventory AS i
+INNER JOIN classification AS c
+  ON i.classification_id = c.classification_id
+WHERE c.classification_name = 'Sport';
+
+-- 6) Add "/vehicles" inside image paths
+UPDATE inventory
+SET inv_image = REPLACE(inv_image, '/images/', '/images/vehicles/'),
+    inv_thumbnail = REPLACE(inv_thumbnail, '/images/', '/images/vehicles/');

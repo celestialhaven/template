@@ -1,0 +1,17 @@
+{
+    "sqltools.connections": [
+        {
+            "pgOptions": {
+                "ssl": {
+                    "rejectUnauthorized": true
+                }
+            },
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "localhost",
+            "driver": "PostgreSQL",
+            "name": "cse340jm",
+            "connectString": "postgresql://cse340jm:CAGEIcpvjtgPERDItOa20sVsQCWThSKt@dpg-d430jcjipnbc73bbcr5g-a.singapore-postgres.render.com/cse340jm_4a0r"
+        }
+    ]
+}

@@ -13,7 +13,7 @@ if (process.env.NODE_ENV == "development") {
     ssl: {
       rejectUnauthorized: false,
     },
-})
+  });
 
 // Added for troubleshooting queries
 // during development

@@ -1,33 +1,22 @@
-// database/index.js
 const { Pool } = require("pg")
 require("dotenv").config()
-
 /* ***************
  * Connection Pool
- * Local vs Production (Render)
+ * SSL Object needed for local testing of app
+ * But will cause problems in production environment
+ * If - else will make determination which to use
  * *************** */
-
 let pool
-
-if (process.env.NODE_ENV === "production") {
-  // 🔹 Running on Render (or other host)
-  //    Use DATABASE_URL from Render and enable SSL
+if (process.env.NODE_ENV == "development") {
   pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: {
       rejectUnauthorized: false,
     },
-  })
-} else {
-  // 🔹 Local development
-  //    Use local DATABASE_URL from your .env
-  pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    // no ssl needed locally
-  })
-}
+})
 
-// 🔹 Export a query helper used everywhere in models
+// Added for troubleshooting queries
+// during development
 module.exports = {
   async query(text, params) {
     try {
@@ -35,8 +24,14 @@ module.exports = {
       console.log("executed query", { text })
       return res
     } catch (error) {
-      console.error("error in query", { text, error })
+      console.error("error in query", { text })
       throw error
     }
   },
+}
+} else {
+  pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+  })
+  module.exports = pool
 }

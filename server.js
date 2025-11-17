@@ -5,6 +5,7 @@
 /* ***********************
  * Require Statements
  *************************/
+const baseController = require("./controllers/baseController")
 const express = require("express")
 const env = require("dotenv").config()
 const app = express()
@@ -38,6 +39,4 @@ app.listen(port, () => {
 })
 
 // Index route
-app.get("/", function (req, res) {
-  res.render("index", { title: "Home" })
-})
+app.get("/", baseController.buildHome)

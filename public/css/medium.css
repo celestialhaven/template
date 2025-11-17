@@ -14,8 +14,9 @@
         max-width: 900px;
         margin-inline: auto;
     }
-    
+
     #inv-display {
         grid-template-columns: repeat(3, 1fr);
     }
+    
 }

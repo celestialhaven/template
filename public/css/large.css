@@ -22,4 +22,13 @@
     .upgrade-section {
         order: 1;
     }
+
+    .nav-links>ul {
+        justify-content: center;
+        gap: 50px;
+    }
+
+    #inv-display {
+        grid-template-columns: repeat(4, 1fr);
+    }
 }

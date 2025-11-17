@@ -22,7 +22,9 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: var(--font-heading)
+  font-family: var(--font-heading);
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 p,
@@ -30,4 +32,8 @@ li,
 a {
   font-family: var(--font-body);
   text-decoration: none;
+}
+
+main {
+  padding: 20px;
 }

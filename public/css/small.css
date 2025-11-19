@@ -187,6 +187,43 @@ nav {
     margin-top: 20px;
 }
 
+.vehicle-detail {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.vehicle-detail {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+}
+
+.vehicle-detail__image-wrapper img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.vehicle-detail__info h1 {
+    margin-bottom: 0.5rem;
+}
+
+.vehicle-detail__price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.vehicle-detail__miles,
+.vehicle-detail__description {
+    margin-bottom: 0.5rem;
+}
+
+#inv-detail {
+    display: flex;
+    flex-direction: column;
+}
+
 footer {
     padding: 20px;
 }

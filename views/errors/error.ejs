@@ -10,19 +10,22 @@
 </head>
 
 <body>
-
-    <h1>
-        <%= title %>
-    </h1>
-
-    <div>
-        <%- message %>
-    </div>
-
-    <p style="margin-top: 20px; color: gray;">
-        Looks like the page took a wrong turn... but at least you're here now 😅
-    </p>
-
+    <main>
+        <div class="error-wrapper">
+            <h1>
+                <%= title %>
+            </h1>
+    
+            <section class="error-card">
+                <p class="error-message">
+                    <%= message %>
+                </p>
+                <p class="error-help">
+                    Please use the navigation above to return to a different page, or go back in your browser.
+                </p>
+            </section>
+        </div>
+    </main>
 </body>
 
 </html>

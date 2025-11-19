@@ -18,5 +18,9 @@
     #inv-display {
         grid-template-columns: repeat(3, 1fr);
     }
+
+    #inv-detail {
+        flex-direction: row;
+    }
     
 }

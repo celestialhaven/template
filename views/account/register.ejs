@@ -1,0 +1,57 @@
+<main class="account-register">
+    <% if (locals.messages) { %>
+        <div class="flash-messages">
+            <%- messages() %>
+        </div>
+        <% } %>
+
+            <h1>
+                <%= title %>
+            </h1>
+
+            <section class="account-register__card">
+                <p class="account-register__intro">
+                    Create your account by filling in the details below. All fields are required.
+                </p>
+
+                <form action="/account/register" method="post" class="account-register__form" novalidate>
+                    <!-- First Name -->
+                    <div class="form-group">
+                        <label for="account_firstname">First Name</label>
+                        <input type="text" id="account_firstname" name="account_firstname" required>
+                    </div>
+
+                    <!-- Last Name -->
+                    <div class="form-group">
+                        <label for="account_lastname">Last Name</label>
+                        <input type="text" id="account_lastname" name="account_lastname" required>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label for="account_email">Email Address</label>
+                        <input type="email" id="account_email" name="account_email" required>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="form-group">
+                        <label for="account_password">Password</label>
+                        <input type="password" id="account_password" name="account_password" required
+                            aria-describedby="passwordHelp">
+                        <small id="passwordHelp" class="form-text">
+                            Password must be at least 12 characters, include 1 capital letter,
+                            1 number, and 1 special character.
+                        </small>
+
+                        <!-- Optional: toggle password visibility -->
+                        <button type="button" id="togglePassword" class="btn btn-secondary btn-toggle-password">
+                            Show Password
+                        </button>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        Create Account
+                    </button>
+                </form>
+            </section>
+</main>

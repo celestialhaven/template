@@ -28,7 +28,9 @@ h4 {
 
 p,
 li,
-a {
+a,
+label,
+small {
   font-family: var(--font-body);
   text-decoration: none;
 }

@@ -16,31 +16,33 @@ const expressLayouts = require("express-ejs-layouts")
 const utilities = require("./utilities")
 const session = require("express-session")
 const pool = require("./database/")
-const bodyParser = require("body-parser")
 
 /* ***********************
  * Middleware
- * ************************/
- app.use(session({
-  store: new (require('connect-pg-simple')(session))({
+ *************************/
+
+// MUST come BEFORE routes – allows form data handling
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
+
+// Session storage
+app.use(session({
+  store: new (require("connect-pg-simple")(session))({
     createTableIfMissing: true,
     pool,
   }),
   secret: process.env.SESSION_SECRET,
   resave: true,
   saveUninitialized: true,
-  name: 'sessionId',
- }))
+  name: "sessionId",
+}))
 
-// Express Messages Middleware
-app.use(require('connect-flash')())
-app.use(function(req, res, next){
-  res.locals.messages = require('express-messages')(req, res)
+// Flash Message Middleware
+app.use(require("connect-flash")())
+app.use(function (req, res, next) {
+  res.locals.messages = require("express-messages")(req, res)
   next()
 })
-
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 /* ***********************
  * View Engine and Templates
@@ -48,6 +50,8 @@ app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-
 app.set("view engine", "ejs")
 app.use(expressLayouts)
 app.set("layout", "./layouts/layout") // not at views root
+
+// Static Files (CSS/JS/images)
 app.use(express.static("public"))
 
 /* ***********************
@@ -58,37 +62,30 @@ app.use(static)
 // Index route
 app.get("/", utilities.handleErrors(baseController.buildHome))
 
-// (Task 3) Intentional 500 error route – controller will throw an error
-app.get(
-  "/trigger-error",
-  utilities.handleErrors(baseController.triggerError)
-)
+// Intentional 500 error simulation for assignment
+app.get("/trigger-error", utilities.handleErrors(baseController.triggerError))
 
 // Inventory routes
 app.use("/inv", inventoryRoute)
 
-// Account routes
+// Account routes (login & registration)
 app.use("/account", accountRoute)
 
-// File Not Found Route - must be last route in list
+// File Not Found Route (must be last)
 app.use(async (req, res, next) => {
   next({ status: 404, message: "Sorry, we appear to have lost that page." })
 })
 
 /* ***********************
- * Express Error Handler
- * Place after all other middleware
+ * Express Error Handler – after all routes
  *************************/
 app.use(async (err, req, res, next) => {
   let nav = await utilities.getNav()
   console.error(`Error at: "${req.originalUrl}": ${err.message}`)
 
-  let message
-  if (err.status == 404) {
-    message = err.message
-  } else {
-    message = "Oh no! There was a crash. Maybe try a different route?"
-  }
+  let message = err.status == 404
+    ? err.message
+    : "Oh no! There was a crash. Maybe try a different route?"
 
   res.status(err.status || 500).render("errors/error", {
     title: err.status || "Server Error",
@@ -98,14 +95,13 @@ app.use(async (err, req, res, next) => {
 })
 
 /* ***********************
- * Local Server Information
- * Values from .env (environment) file
+ * Local Server Info from .env
  *************************/
 const port = process.env.PORT
 const host = process.env.HOST
 
 /* ***********************
- * Log statement to confirm server operation
+ * Confirm server running
  *************************/
 app.listen(port, () => {
   console.log(`app listening on ${host}:${port}`)

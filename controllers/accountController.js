@@ -27,54 +27,58 @@ accountController.buildRegister = async function (req, res, next) {
   res.render("account/register", {
     title: "Register",
     nav,
-    errors: null
-  })
-}
-
-/* ****************************************
-*  Deliver registration view
-* *************************************** */
-accountController.buildRegister = async function (req, res, next) {
-  let nav = await utilities.getNav()
-  res.render("account/register", {
-    title: "Register",
-    nav,
-    errors: null
+    errors: null,
   })
 }
 
 /* ****************************************
 *  Process Registration
 * *************************************** */
-accountController.registerAccount = async function (req, res) {
+accountController.registerAccount = async function (req, res, next) {
+  console.log("➡️ Hit registerAccount controller")  // 👈 step-1 check
   let nav = await utilities.getNav()
-  // Pull values from the form (body)
-  const { account_firstname, account_lastname, account_email, account_password } = req.body
 
-  // Call the model to insert into the database
-  const regResult = await accountModel.registerAccount(
-    account_firstname,
-    account_lastname,
-    account_email,
-    account_password
-  )
+  try {
+    console.log("Register form data:", req.body)    // 👈 step-2 check
 
-  if (regResult) {
-    // Registration success
-    req.flash(
-      "notice",
-      `Congratulations, you're registered ${account_firstname}. Please log in.`
+    const {
+      account_firstname,
+      account_lastname,
+      account_email,
+      account_password,
+    } = req.body
+
+    const regResult = await accountModel.registerAccount(
+      account_firstname,
+      account_lastname,
+      account_email,
+      account_password
     )
-    res.status(201).render("account/login", {
-      title: "Login",
-      nav,
-    })
-  } else {
-    // Registration failed
+
+    if (regResult && regResult.rowCount > 0) {
+      req.flash(
+        "notice",
+        `Congratulations, you're registered ${account_firstname}. Please log in.`
+      )
+      return res.status(201).render("account/login", {
+        title: "Login",
+        nav,
+      })
+    }
+
     req.flash("notice", "Sorry, the registration failed.")
-    res.status(501).render("account/register", {
+    return res.status(501).render("account/register", {
       title: "Register",
       nav,
+      errors: null,
+    })
+  } catch (error) {
+    console.error("registerAccount controller error:", error)
+    req.flash("notice", "Sorry, the registration failed.")
+    return res.status(500).render("account/register", {
+      title: "Register",
+      nav,
+      errors: null,
     })
   }
 }

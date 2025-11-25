@@ -224,6 +224,86 @@ nav {
     flex-direction: column;
 }
 
+.account-login {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 1rem;
+}
+
+.account-login__card {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.account-login__intro {
+    margin-bottom: 1.5rem;
+    color: #555;
+}
+
+.account-login__form .form-group {
+    margin-bottom: 1rem;
+}
+
+.account-login__form label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+}
+
+.account-login__form input[type="email"],
+.account-login__form input[type="password"] {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+.account-login__form input[type="email"]:focus,
+.account-login__form input[type="password"]:focus {
+    outline: none;
+    border-color: #316aff;
+    box-shadow: 0 0 0 2px rgba(49, 106, 255, 0.15);
+}
+
+.btn.btn-primary {
+    display: inline-block;
+    margin-top: 0.5rem;
+    padding: 0.6rem 1.5rem;
+    border-radius: 4px;
+    border: none;
+    background: #316aff;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.btn.btn-primary:hover {
+    background: #2551c2;
+}
+
+.account-login__register {
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+.account-login__register a {
+    color: #316aff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.account-login__register a:hover {
+    text-decoration: underline;
+}
+
+.flash-messages {
+    margin-bottom: 1rem;
+}
+
 footer {
     padding: 20px;
 }

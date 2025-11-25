@@ -1,0 +1,40 @@
+<main class="account-login">
+    <% if (locals.messages) { %>
+        <div class="flash-messages">
+            <%- messages() %>
+        </div>
+        <% } %>
+
+            <h1>
+                <%= title %>
+            </h1>
+
+            <section class="account-login__card">
+                <p class="account-login__intro">
+                    Please sign in with your email and password to access your account.
+                </p>
+
+                <form action="/account/login" method="post" class="account-login__form">
+                    <div class="form-group">
+                        <label for="account_email">Email Address</label>
+                        <input type="email" id="account_email" name="account_email" placeholder="jane.doe@domain.com"
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="account_password">Password</label>
+                        <input type="password" id="account_password" name="account_password"
+                            placeholder="Enter your password" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        Login
+                    </button>
+                </form>
+
+                <p class="account-login__register">
+                    Don’t have an account yet?
+                    <a href="/account/register">Create an account</a>
+                </p>
+            </section>
+</main>

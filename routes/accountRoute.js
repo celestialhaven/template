@@ -9,8 +9,16 @@ const accountController = require("../controllers/accountController")
 // Login route - handles "/account/login"
 router.get("/login", utilities.handleErrors(accountController.buildLogin))
 
-// Registration route - handles "/account/register"
+// Registration view route - handles "/account/register"
 router.get("/register", utilities.handleErrors(accountController.buildRegister))
+
+/* ****************************************
+*  Process registration data
+* *************************************** */
+router.post(
+  "/register",
+  utilities.handleErrors(accountController.registerAccount)
+)
 
 // Export the router
 module.exports = router

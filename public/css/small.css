@@ -386,6 +386,11 @@ nav {
     background: #e0e0e0;
 }
 
+.password-help p {
+    font-size: 12px;
+    padding-bottom: 5px;
+}
+
 .flash-messages {
     margin-bottom: 1rem;
 }

@@ -14,34 +14,41 @@
                     Create your account by filling in the details below. All fields are required.
                 </p>
 
-                <form action="/account/register" method="post" class="account-register__form" novalidate>
+                <!-- Removed novalidate so HTML5 validation is active -->
+                <form action="/account/register" method="post" class="account-register__form">
                     <!-- First Name -->
                     <div class="form-group">
                         <label for="account_firstname">First Name</label>
-                        <input type="text" id="account_firstname" name="account_firstname" required>
+                        <input type="text" id="account_firstname" name="account_firstname" placeholder="Jane" required>
                     </div>
 
                     <!-- Last Name -->
                     <div class="form-group">
                         <label for="account_lastname">Last Name</label>
-                        <input type="text" id="account_lastname" name="account_lastname" required>
+                        <input type="text" id="account_lastname" name="account_lastname" placeholder="Doe" required>
                     </div>
 
                     <!-- Email -->
                     <div class="form-group">
                         <label for="account_email">Email Address</label>
-                        <input type="email" id="account_email" name="account_email" required>
+                        <input type="email" id="account_email" name="account_email" placeholder="jane.doe@domain.com"
+                            required>
                     </div>
 
                     <!-- Password -->
                     <div class="form-group">
                         <label for="account_password">Password</label>
+
+                        <!-- Password help BEFORE the input, using a div as requested -->
+                        <div id="passwordHelp" class="form-text password-help">
+                            <p>Passwords must be at least 12 characters and contain at least:
+                            1 number, 1 capital letter, and 1 special character.</p>
+                        </div>
+
                         <input type="password" id="account_password" name="account_password" required
-                            aria-describedby="passwordHelp">
-                        <small id="passwordHelp" class="form-text">
-                            Password must be at least 12 characters, include 1 capital letter,
-                            1 number, and 1 special character.
-                        </small>
+                            aria-describedby="passwordHelp"
+                            pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
+                            title="At least 12 characters with 1 number, 1 uppercase letter, and 1 special character.">
 
                         <!-- Optional: toggle password visibility -->
                         <button type="button" id="togglePassword" class="btn btn-secondary btn-toggle-password">

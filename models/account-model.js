@@ -8,7 +8,6 @@ async function registerAccount(account_firstname, account_lastname, account_emai
     const sql =
       "INSERT INTO account (account_firstname, account_lastname, account_email, account_password, account_type) VALUES ($1, $2, $3, $4, 'Client') RETURNING *"
 
-    //  store the result instead of returning directly
     const data = await pool.query(sql, [
       account_firstname,
       account_lastname,
@@ -16,7 +15,6 @@ async function registerAccount(account_firstname, account_lastname, account_emai
       account_password,
     ])
 
-    //  This will show ONLY in the terminal when an account is created
     console.log(
       `ACCOUNT CREATED → id: ${data.rows[0].account_id}, email: ${data.rows[0].account_email}`
     )
@@ -31,14 +29,18 @@ async function registerAccount(account_firstname, account_lastname, account_emai
 /* **********************
  *   Check for existing email
  * ********************* */
-async function checkExistingEmail(account_email){
+async function checkExistingEmail(account_email) {
   try {
     const sql = "SELECT * FROM account WHERE account_email = $1"
     const email = await pool.query(sql, [account_email])
-    return email.rowCount
+    return email.rowCount // returns 1 or 0
   } catch (error) {
-    return error.message
+    console.error("CHECK EMAIL ERROR:", error)
+    throw error
   }
 }
 
-module.exports = { registerAccount }
+module.exports = {
+  registerAccount,
+  checkExistingEmail
+}

@@ -20,5 +20,15 @@ router.post(
   utilities.handleErrors(accountController.registerAccount) // ③ only runs if valid
 )
 
+/* *******************************
+ *  Process login attempt
+ * ****************************** */
+router.post(
+  "/login",
+  regValidate.loginRules(),      // ① login validation rules
+  regValidate.checkLoginData,    // ② rerender view if errors
+  utilities.handleErrors(accountController.accountLogin) // ③ your controller
+)
+
 // Export the router
 module.exports = router

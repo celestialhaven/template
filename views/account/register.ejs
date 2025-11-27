@@ -29,20 +29,20 @@
                     <!-- First Name -->
                     <div class="form-group">
                         <label for="account_firstname">First Name</label>
-                        <input type="text" id="account_firstname" name="account_firstname" placeholder="Jane" required>
+                        <input type="text" name="account_firstname" id="accountFirstname" placeholder="Jane" required value="<%= locals.account_firstname %>">
                     </div>
 
                     <!-- Last Name -->
                     <div class="form-group">
                         <label for="account_lastname">Last Name</label>
-                        <input type="text" id="account_lastname" name="account_lastname" placeholder="Doe" required>
+                        <input type="text" id="account_lastname" name="account_lastname" placeholder="Doe" required value="<%= locals.account_lastname %>">
                     </div>
 
                     <!-- Email -->
                     <div class="form-group">
                         <label for="account_email">Email Address</label>
                         <input type="email" id="account_email" name="account_email" placeholder="jane.doe@domain.com"
-                            required>
+                            required value="<%= locals.account_email %>">
                     </div>
 
                     <!-- Password -->

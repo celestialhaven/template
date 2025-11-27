@@ -30,7 +30,8 @@ p,
 li,
 a,
 label,
-small {
+small, 
+input {
   font-family: var(--font-body);
   text-decoration: none;
 }

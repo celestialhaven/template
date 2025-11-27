@@ -4,7 +4,7 @@ const Util = {}
 /* ************************
  * Constructs the nav HTML unordered list
  ************************** */
-Util.getNav = async function (req, res, next) {
+Util.getNav = async function () {
   let data = await invModel.getClassifications()
   let list = "<ul>"
   list += '<li><a href="/" title="Home page">Home</a></li>'
@@ -24,21 +24,43 @@ Util.getNav = async function (req, res, next) {
   return list
 }
 
+/* **************************************
+ * Build the classification <select> list
+ * ************************************ */
+Util.buildClassificationList = async function (classification_id = null) {
+  let data = await invModel.getClassifications()
+  let classificationList =
+    '<select name="classification_id" id="classificationList" required>'
+  classificationList += "<option value=''>Choose a Classification</option>"
+
+  data.rows.forEach((row) => {
+    classificationList += '<option value="' + row.classification_id + '"'
+    if (
+      classification_id != null &&
+      row.classification_id == classification_id
+    ) {
+      classificationList += " selected"
+    }
+    classificationList += ">" + row.classification_name + "</option>"
+  })
+
+  classificationList += "</select>"
+  return classificationList
+}
+
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 
  * General Error Handling
  **************************************** */
-Util.handleErrors = fn => (req, res, next) => 
+Util.handleErrors = (fn) => (req, res, next) =>
   Promise.resolve(fn(req, res, next)).catch(next)
-
-module.exports = Util
 
 /* **************************************
  * Build the classification view HTML
  * ************************************ */
 Util.buildClassificationGrid = async function (data) {
-  let grid = ""   // small fix so it doesn't start as undefined
+  let grid = ""
   if (data.length > 0) {
     grid = '<ul id="inv-display">'
     data.forEach((vehicle) => {
@@ -102,7 +124,7 @@ Util.buildVehicleDetail = async function (vehicle) {
   // Format mileage with commas
   const miles = new Intl.NumberFormat("en-US").format(vehicle.inv_miles)
 
-  let detail = ''
+  let detail = ""
 
   detail += '<section id="inv-detail" class="vehicle-detail">'
   detail += '  <div class="vehicle-detail__image-wrapper">'
@@ -148,3 +170,8 @@ Util.buildVehicleDetail = async function (vehicle) {
 
   return detail
 }
+
+/* ***************
+ * Export Utility
+ * ************* */
+module.exports = Util

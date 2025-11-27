@@ -1,0 +1,19 @@
+<main class="inv-management">
+    <% if (locals.messages) { %>
+        <div class="flash-messages">
+            <%- messages() %>
+        </div>
+    <% } %>
+
+    <h1>
+        <%= title %>
+    </h1>
+    <p>Use the options below to manage vehicle classifications and inventory.</p>
+
+    <nav>
+        <ul class="inv-management__actions">
+            <li><a href="/inv/add-classification">Add New Classification</a></li>
+            <li><a href="/inv/add-inventory">Add New Inventory</a></li>
+        </ul>
+    </nav>
+</main>

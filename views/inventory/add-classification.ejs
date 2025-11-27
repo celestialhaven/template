@@ -1,0 +1,29 @@
+<main class="inv-add-classification">
+  <% if (locals.messages) { %>
+    <div class="flash-messages">
+      <%- messages() %>
+    </div>
+  <% } %>
+
+    <% if (errors && errors.length> 0) { %>
+    <ul class="notice">
+        <% errors.forEach(error=> { %>
+            <li>
+                <%= error.msg %>
+            </li>
+            <% }) %>
+    </ul>
+    <% } %>
+
+  <h1>Add New Classification</h1>
+  <p>New classification names <strong>must not contain spaces or special characters</strong>.</p>
+
+  <form action="/inv/add-classification" method="post" class="inv-add-form">
+    <label for="classification_name">Classification Name</label>
+    <input type="text" id="classification_name" name="classification_name" required pattern="^[A-Za-z0-9]+$"
+        title="Only letters and numbers allowed. No spaces or special characters." placeholder="Example: SUV"
+        value="<%= typeof classification_name !== 'undefined' ? classification_name : '' %>">
+    
+    <button type="submit" class="btn btn-primary">Add Classification</button>
+  </form>
+</main>

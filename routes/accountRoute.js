@@ -5,7 +5,7 @@ const express = require("express")
 const router = express.Router()
 const utilities = require("../utilities")
 const accountController = require("../controllers/accountController")
-const regValidate = require('../utilities/account-validation')
+const regValidate = require("../utilities/account-validation")
 
 // Login route - handles "/account/login"
 router.get("/login", utilities.handleErrors(accountController.buildLogin))
@@ -13,6 +13,17 @@ router.get("/login", utilities.handleErrors(accountController.buildLogin))
 // Registration view route - handles "/account/register"
 router.get("/register", utilities.handleErrors(accountController.buildRegister))
 
+/* *******************************
+ *  Account Management View (default /account route)
+ * ****************************** */
+router.get(
+  "/",
+  utilities.handleErrors(accountController.buildAccountManagement)
+)
+
+/* *******************************
+ *  Process registration
+ * ****************************** */
 router.post(
   "/register",
   regValidate.registerRules(),     // ① apply validation rules

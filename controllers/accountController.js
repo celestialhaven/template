@@ -36,6 +36,20 @@ accountController.buildRegister = async function (req, res, next) {
 }
 
 /* ****************************************
+*  Deliver account management view
+* *************************************** */
+accountController.buildAccountManagement = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  res.render("account/management", {
+    title: "Account Management",
+    nav,
+    notice: req.flash("notice"), // will show "You're logged in." etc.
+    errors: null,
+  })
+}
+
+
+/* ****************************************
 *  Process Registration
 * *************************************** */
 accountController.registerAccount = async function (req, res, next) {
@@ -126,16 +140,26 @@ async function accountLogin(req, res) {
   try {
     if (await bcrypt.compare(account_password, accountData.account_password)) {
       delete accountData.account_password
-      const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
-      if(process.env.NODE_ENV === 'development') {
+
+      const accessToken = jwt.sign(
+        accountData,
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: 3600 * 1000 }
+      )
+
+      if (process.env.NODE_ENV === 'development') {
         res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
       } else {
         res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 })
       }
+
+      // ✅ Success notice for the management view
+      req.flash("notice", "You’re logged in.")
+
       return res.redirect("/account/")
     }
     else {
-      req.flash("message notice", "Please check your credentials and try again.")
+      req.flash("notice", "Please check your credentials and try again.")
       res.status(400).render("account/login", {
         title: "Login",
         nav,
@@ -148,4 +172,5 @@ async function accountLogin(req, res) {
   }
 }
 
+accountController.accountLogin = accountLogin
 module.exports = accountController

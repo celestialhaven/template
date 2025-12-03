@@ -13,17 +13,16 @@
     </ul>
   <% } %>
 
-  <h1>Add New Vehicle</h1>
-  <p>All fields are required. Classification must be selected from the list.</p>
+  <h1><%= title %></h1>
+  <p>Modify the vehicle details below and save your changes. All fields are required.</p>
 
-  <form action="/inv/add-inventory" method="post" class="inv-add-form">
-    <!-- Classification -->
+  <form action="/inv/update" method="post" class="inv-add-form" id="updateForm">
+
     <div class="form-group">
       <label for="classification_id">Classification</label>
-      <%- classificationList %>  <!-- unescaped so <select> renders -->
+      <%- classificationSelect %>
     </div>
 
-    <!-- Make -->
     <div class="form-group">
       <label for="inv_make">Make</label>
       <input
@@ -31,7 +30,6 @@
         id="inv_make"
         name="inv_make"
         required
-        placeholder="Min of 3 characters"
         minlength="2"
         maxlength="50"
         pattern="^[A-Za-z0-9 ]+$"
@@ -40,7 +38,6 @@
       >
     </div>
 
-    <!-- Model -->
     <div class="form-group">
       <label for="inv_model">Model</label>
       <input
@@ -48,7 +45,6 @@
         id="inv_model"
         name="inv_model"
         required
-        placeholder="Min of 3 characters"
         minlength="2"
         maxlength="50"
         pattern="^[A-Za-z0-9 ]+$"
@@ -57,7 +53,6 @@
       >
     </div>
 
-    <!-- Year -->
     <div class="form-group">
       <label for="inv_year">Year</label>
       <input
@@ -65,14 +60,12 @@
         id="inv_year"
         name="inv_year"
         required
-        placeholder="4-digit year"
         min="1200"
         max="2100"
         value="<%= inv_year || '' %>"
       >
     </div>
 
-    <!-- Price -->
     <div class="form-group">
       <label for="inv_price">Price</label>
       <input
@@ -80,14 +73,12 @@
         id="inv_price"
         name="inv_price"
         required
-        placeholder="Decimal or integer"
         min="0"
         step="0.01"
         value="<%= inv_price || '' %>"
       >
     </div>
 
-    <!-- Miles -->
     <div class="form-group">
       <label for="inv_miles">Miles</label>
       <input
@@ -95,14 +86,12 @@
         id="inv_miles"
         name="inv_miles"
         required
-        placeholder="Digits only"
         min="0"
         step="1"
         value="<%= inv_miles || '' %>"
       >
     </div>
 
-    <!-- Color -->
     <div class="form-group">
       <label for="inv_color">Color</label>
       <input
@@ -118,7 +107,6 @@
       >
     </div>
 
-    <!-- Description -->
     <div class="form-group">
       <label for="inv_description">Description</label>
       <textarea
@@ -130,7 +118,6 @@
       ><%= inv_description || '' %></textarea>
     </div>
 
-    <!-- Image path -->
     <div class="form-group">
       <label for="inv_image">Image Path</label>
       <input
@@ -142,7 +129,6 @@
       >
     </div>
 
-    <!-- Thumbnail path -->
     <div class="form-group">
       <label for="inv_thumbnail">Thumbnail Path</label>
       <input
@@ -154,8 +140,13 @@
       >
     </div>
 
-    <button type="submit" class="btn btn-primary">
-      Add Vehicle
+    <button type="submit" class="btn btn-primary" id="updateBtn" disabled>
+      Update Vehicle
     </button>
+
+    <!-- Hidden primary key for update -->
+    <input type="hidden" name="inv_id" <% if (locals.inv_id) { %> value="<%= locals.inv_id %>" <% } %> >
   </form>
+
+    <script src="/js/inv-update.js"></script>
 </div>

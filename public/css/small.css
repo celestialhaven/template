@@ -399,7 +399,8 @@ nav {
     list-style: none;
     padding: 0;
     display: flex;
-    gap: 1rem;
+    flex-direction: column;
+    gap: 40px;
 }
 
 .inv-management__actions a {
@@ -544,6 +545,86 @@ nav {
 .inv-add-form .btn:active {
     transform: translateY(0);
     box-shadow: none;
+}
+
+
+/* ========================= */
+/* Inventory Management Page */
+/* ========================= */
+
+.inv-management {
+    max-width: 800px;
+    margin: 2rem auto;
+    font-family: Arial, sans-serif;
+}
+
+.inv-management h2,
+.inv-management h1 {
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.inv-management h2 {
+    margin-top: 60px;
+}
+
+.classification-select-wrapper {
+    margin-bottom: 1.5rem;
+}
+
+.classification-select-wrapper select {
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+    padding: 0.4rem 0.6rem;
+    font-size: 1rem;
+}
+
+/* ===== TABLE STYLES ===== */
+#inventoryDisplay {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+#inventoryDisplay thead {
+    background: #f5f5f5;
+}
+
+#inventoryDisplay th,
+#inventoryDisplay td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+#inventoryDisplay th {
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+/* Row hover */
+#inventoryDisplay tbody tr:hover {
+    background-color: #f0f8ff;
+}
+
+/* Action links */
+#inventoryDisplay a {
+    margin-left: 1rem;
+    color: #0066cc;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+#inventoryDisplay a:hover {
+    text-decoration: underline;
+    color: #003d80;
+}
+
+/* If no inventory found */
+.no-inventory {
+    padding: 1rem;
+    font-style: italic;
+    color: #444;
 }
 
 footer {

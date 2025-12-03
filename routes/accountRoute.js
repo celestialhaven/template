@@ -18,7 +18,7 @@ router.get("/register", utilities.handleErrors(accountController.buildRegister))
  * ****************************** */
 router.get(
   "/",
-  utilities.handleErrors(accountController.buildAccountManagement)
+  utilities.checkLogin, utilities.handleErrors(accountController.buildAccountManagement)
 )
 
 /* *******************************

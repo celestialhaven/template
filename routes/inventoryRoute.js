@@ -27,6 +27,23 @@ router.get(
   utilities.handleErrors(invController.buildManagementView)
 )
 
+/* ***************************
+ *  Get inventory by classification as JSON
+ * ************************** */
+router.get(
+  "/getInventory/:classification_id",
+  utilities.handleErrors(invController.getInventoryJSON)
+)
+
+/* ***************************
+ *  Edit inventory item view
+ *  URL example: /inv/edit/3
+ * ************************** */
+router.get(
+  "/edit/:inv_id",
+  utilities.handleErrors(invController.buildEditInventoryView)
+)
+
 /* **************
  * Task 2 — Add Classification
  * ************** */
@@ -61,6 +78,16 @@ router.post(
   invValidate.inventoryRules(),
   invValidate.checkInventoryData,
   utilities.handleErrors(invController.addInventory)
+)
+
+/* **************
+ *  Update Inventory
+ * ************** */
+router.post(
+  "/update",
+  invValidate.inventoryRules(),
+  invValidate.checkInventoryData,
+  utilities.handleErrors(invController.updateInventory)
 )
 
 /* **************

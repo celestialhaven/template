@@ -22,5 +22,14 @@
     #inv-detail {
         flex-direction: row;
     }
+
+    .inv-management__actions {
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .inv-management h2 {
+    margin-top: 30px;
+    }
     
 }

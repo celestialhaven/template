@@ -1,19 +1,36 @@
-<main class="inv-management">
-    <% if (locals.messages) { %>
-        <div class="flash-messages">
-            <%- messages() %>
-        </div>
-    <% } %>
+<div class="inv-management">
+  <% if (locals.messages) { %>
+    <div class="flash-messages">
+      <%- messages() %>
+    </div>
+  <% } %>
 
-    <h1>
-        <%= title %>
-    </h1>
-    <p>Use the options below to manage vehicle classifications and inventory.</p>
+  <h1><%= title %></h1>
 
-    <nav>
-        <ul class="inv-management__actions">
-            <li><a href="/inv/add-classification">Add New Classification</a></li>
-            <li><a href="/inv/add-inventory">Add New Inventory</a></li>
-        </ul>
-    </nav>
-</main>
+  <!-- Links to add classification / inventory -->
+  <nav>
+    <ul class="inv-management__actions">
+      <li><a href="/inv/add-classification">Add New Classification</a></li>
+      <li><a href="/inv/add-inventory">Add New Inventory</a></li>
+    </ul>
+  </nav>
+
+  <!-- Manage Inventory heading -->
+  <h2>Manage Inventory</h2>
+
+  <!-- Instruction paragraph -->
+  <p>Select a classification from the list to see the items belonging to that classification.</p>
+
+  <!-- Classification select list from controller -->
+  <div class="classification-select-wrapper">
+    <%- classificationSelect %>
+  </div>
+
+  <!-- Empty table for JS to populate -->
+  <table id="inventoryDisplay"></table>
+
+  <!-- noscript message -->
+  <noscript>JavaScript must be enabled to use this page.</noscript>
+
+  <script src="../../js/inventory.js"></script>
+</div>

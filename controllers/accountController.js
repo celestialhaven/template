@@ -39,15 +39,17 @@ accountController.buildRegister = async function (req, res, next) {
 *  Deliver account management view
 * *************************************** */
 accountController.buildAccountManagement = async function (req, res, next) {
-  let nav = await utilities.getNav()
+  const nav = await utilities.getNav()
+  const accountData = res.locals.accountData  // comes from checkJWTToken
+
   res.render("account/management", {
     title: "Account Management",
     nav,
-    notice: req.flash("notice"), // will show "You're logged in." etc.
+    notice: req.flash("notice"),
     errors: null,
+    accountData
   })
 }
-
 
 /* ****************************************
 *  Process Registration

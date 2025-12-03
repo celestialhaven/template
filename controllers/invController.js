@@ -48,16 +48,13 @@ invCont.buildByInvId = async function (req, res, next) {
  * ************************** */
 invCont.buildManagementView = async function (req, res, next) {
   let nav = await utilities.getNav()
-
-  // ⬇️ Build the classification select list here
   const classificationSelect = await utilities.buildClassificationList()
 
-  res.render("inventory/management", {
-    
+  return res.render("inventory/management", {
     title: "Inventory Management",
     nav,
     errors: null,
-    classificationSelect, // ⬅️ pass it to the view
+    classificationSelect,
   })
 }
 
@@ -69,8 +66,8 @@ invCont.buildAddClassificationView = async function (req, res, next) {
   res.render("inventory/add-classification", {
     title: "Add New Classification",
     nav,
-    errors: [],                // 👈 empty array
-    classification_name: ""    // 👈 optional, used in value=""
+    errors: [],
+    classification_name: "",
   })
 }
 
@@ -85,16 +82,11 @@ invCont.addClassification = async function (req, res, next) {
     const result = await invModel.addClassification(classification_name)
 
     if (result) {
-      nav = await utilities.getNav() // Refresh navigation dynamically
       req.flash("notice", `Successfully added classification: ${classification_name}`)
-      return res.status(201).render("inventory/management", {
-        title: "Inventory Management",
-        nav,
-        errors: null,
-      })
+      // ✅ Let /inv/ rebuild the management view (with classificationSelect)
+      return res.redirect("/inv/")
     }
 
-    // If insertion failed
     req.flash("notice", "Failed to add classification. Try again.")
     return res.status(500).render("inventory/add-classification", {
       title: "Add New Classification",
@@ -134,7 +126,7 @@ invCont.buildAddInventoryView = async function (req, res, next) {
     inv_thumbnail: "",
     inv_price: "",
     inv_miles: "",
-    inv_color: ""
+    inv_color: "",
   })
 }
 
@@ -152,7 +144,7 @@ invCont.addInventory = async function (req, res, next) {
     inv_thumbnail,
     inv_price,
     inv_miles,
-    inv_color
+    inv_color,
   } = req.body
 
   try {
@@ -170,19 +162,14 @@ invCont.addInventory = async function (req, res, next) {
     )
 
     if (addResult) {
-      const nav = await utilities.getNav()
       req.flash(
         "notice",
         `Successfully added ${inv_year} ${inv_make} ${inv_model} to inventory.`
       )
-      return res.status(201).render("inventory/management", {
-        title: "Inventory Management",
-        nav,
-        errors: null
-      })
+      // ✅ Redirect so buildManagementView builds classificationSelect
+      return res.redirect("/inv/")
     }
 
-    // Insert failed
     const nav = await utilities.getNav()
     const classificationList = await utilities.buildClassificationList(classification_id)
     req.flash("notice", "Failed to add vehicle. Please try again.")
@@ -200,7 +187,7 @@ invCont.addInventory = async function (req, res, next) {
       inv_thumbnail,
       inv_price,
       inv_miles,
-      inv_color
+      inv_color,
     })
   } catch (error) {
     console.error("addInventory error:", error)
@@ -221,7 +208,7 @@ invCont.addInventory = async function (req, res, next) {
       inv_thumbnail,
       inv_price,
       inv_miles,
-      inv_color
+      inv_color,
     })
   }
 }
@@ -243,13 +230,8 @@ invCont.getInventoryJSON = async (req, res, next) => {
  *  Build edit inventory view
  * ************************** */
 invCont.buildEditInventoryView = async function (req, res, next) {
-  // 1. Get inv_id from route and convert to integer
   const inv_id = parseInt(req.params.inv_id)
-
-  // 2. Build nav
   let nav = await utilities.getNav()
-
-  // 3. Get the inventory item data from the model
   const itemData = await invModel.getInventoryByInvId(inv_id)
 
   if (!itemData) {
@@ -258,15 +240,12 @@ invCont.buildEditInventoryView = async function (req, res, next) {
     return next(error)
   }
 
-  // 4. Build classification select, preselecting this item's classification
   const classificationSelect = await utilities.buildClassificationList(
     itemData.classification_id
   )
 
-  // 5. Build item name for the title
   const itemName = `${itemData.inv_make} ${itemData.inv_model}`
 
-  // 6. Render the edit-inventory view, passing all item fields
   res.render("inventory/edit-inventory", {
     title: "Edit " + itemName,
     nav,
@@ -282,7 +261,35 @@ invCont.buildEditInventoryView = async function (req, res, next) {
     inv_price: itemData.inv_price,
     inv_miles: itemData.inv_miles,
     inv_color: itemData.inv_color,
-    classification_id: itemData.classification_id
+    classification_id: itemData.classification_id,
+  })
+}
+
+/* ***************************
+ *  Build delete confirmation view
+ * ************************** */
+invCont.buildDeleteInventoryView = async function (req, res, next) {
+  const inv_id = parseInt(req.params.inv_id)
+  let nav = await utilities.getNav()
+  const itemData = await invModel.getInventoryByInvId(inv_id)
+
+  if (!itemData) {
+    const error = new Error("Vehicle not found")
+    error.status = 404
+    return next(error)
+  }
+
+  const itemName = `${itemData.inv_make} ${itemData.inv_model}`
+
+  res.render("inventory/delete-confirm", {
+    title: "Delete " + itemName,
+    nav,
+    errors: null,
+    inv_id: itemData.inv_id,
+    inv_make: itemData.inv_make,
+    inv_model: itemData.inv_model,
+    inv_year: itemData.inv_year,
+    inv_price: itemData.inv_price,
   })
 }
 
@@ -306,7 +313,6 @@ invCont.updateInventory = async function (req, res, next) {
     classification_id,
   } = req.body
 
-  // Call the model to perform the update
   const updateResult = await invModel.updateInventory(
     inv_id,
     inv_make,
@@ -322,12 +328,10 @@ invCont.updateInventory = async function (req, res, next) {
   )
 
   if (updateResult) {
-    // On success, send them back to the management view
     const itemName = `${inv_make} ${inv_model}`
     req.flash("notice", `The ${itemName} was successfully updated.`)
     return res.redirect("/inv/")
   } else {
-    // On failure, rebuild select list and redisplay edit form
     const classificationSelect = await utilities.buildClassificationList(classification_id)
     const itemName = `${inv_make} ${inv_model}`
 
@@ -347,8 +351,27 @@ invCont.updateInventory = async function (req, res, next) {
       inv_price,
       inv_miles,
       inv_color,
-      classification_id
+      classification_id,
     })
+  }
+}
+
+/* ***************************
+ *  Delete Inventory Data
+ * ************************** */
+invCont.deleteInventory = async function (req, res, next) {
+  const inv_id = parseInt(req.body.inv_id, 10)
+  const { inv_make, inv_model } = req.body
+  const itemName = `${inv_make} ${inv_model}`
+
+  const deleteResult = await invModel.deleteInventory(inv_id)
+
+  if (deleteResult) {
+    req.flash("notice", `The ${itemName} was successfully deleted.`)
+    return res.redirect("/inv/")
+  } else {
+    req.flash("notice", "Sorry, the delete failed.")
+    return res.redirect(`/inv/delete/${inv_id}`)
   }
 }
 

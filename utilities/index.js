@@ -177,36 +177,63 @@ Util.buildVehicleDetail = async function (vehicle) {
 * Middleware to check token validity
 **************************************** */
 Util.checkJWTToken = (req, res, next) => {
- if (req.cookies.jwt) {
-  jwt.verify(
-   req.cookies.jwt,
-   process.env.ACCESS_TOKEN_SECRET,
-   function (err, accountData) {
-    if (err) {
-     req.flash("Please log in")
-     res.clearCookie("jwt")
-     return res.redirect("/account/login")
-    }
-    res.locals.accountData = accountData
-    res.locals.loggedin = 1
+  if (req.cookies.jwt) {
+    jwt.verify(
+      req.cookies.jwt,
+      process.env.ACCESS_TOKEN_SECRET,
+      function (err, accountData) {
+        if (err) {
+          req.flash("notice", "Please log in.")
+          res.clearCookie("jwt")
+          return res.redirect("/account/login")
+        }
+        res.locals.accountData = accountData
+        res.locals.loggedin = 1
+        next()
+      }
+    )
+  } else {
     next()
-   })
- } else {
-  next()
- }
+  }
 }
 
 /* ****************************************
- *  Check Login
+ *  Check Login (any logged-in user)
  * ************************************ */
- Util.checkLogin = (req, res, next) => {
+Util.checkLogin = (req, res, next) => {
   if (res.locals.loggedin) {
     next()
   } else {
     req.flash("notice", "Please log in.")
     return res.redirect("/account/login")
   }
- }
+}
+
+/* ****************************************
+ *  Check Employee or Admin role
+ *  (for inventory management, etc.)
+ * ************************************ */
+Util.checkEmployeeOrAdmin = (req, res, next) => {
+  const accountData = res.locals.accountData
+
+  // Not logged in
+  if (!accountData) {
+    req.flash("notice", "Please log in to access that page.")
+    return res.redirect("/account/login")
+  }
+
+  // Logged in but wrong role
+  if (
+    accountData.account_type !== "Employee" &&
+    accountData.account_type !== "Admin"
+  ) {
+    req.flash("notice", "You are not authorized to view that page.")
+    return res.redirect("/account/")
+  }
+
+  // Authorized
+  next()
+}
 
 /* ***************
  * Export Utility

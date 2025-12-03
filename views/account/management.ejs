@@ -4,9 +4,16 @@
   <!-- Flash message (notice) -->
   <% if (locals.notice && notice.length > 0) { %>
     <div class="notice">
-      <% notice.forEach(function(msg) { %>
-        
+      <% notice.forEach(function (msg) { %>
+        <p><%= msg %></p>
       <% }) %>
+    </div>
+  <% } %>
+
+  <!-- Global flash messages (if you're using messages() in layout) -->
+  <% if (locals.messages) { %>
+    <div class="flash-messages">
+      <%- messages() %>
     </div>
   <% } %>
 
@@ -14,12 +21,35 @@
   <% if (locals.errors && errors.length > 0) { %>
     <div class="errors">
       <ul>
-        <% errors.forEach(function(error) { %>
+        <% errors.forEach(function (error) { %>
           <li><%= error.msg %></li>
         <% }) %>
       </ul>
     </div>
   <% } %>
 
-  <p>You're logged in</p>
+  <p>You're logged in.</p>
+
+  <% if (accountData) { %>
+    <p>
+      Welcome,
+      <strong><%= accountData.account_firstname %> <%= accountData.account_lastname %></strong>
+      (<%= accountData.account_type %>)
+    </p>
+  <% } %>
+
+  <!-- Only show inventory tools to Employee / Admin -->
+  <% if (
+       accountData &&
+       (accountData.account_type === 'Employee' || accountData.account_type === 'Admin')
+     ) { %>
+    <section class="account-management__inventory">
+      <h2>Inventory Tools</h2>
+      <ul>
+        <li><a href="/inv/">Inventory Management</a></li>
+        <li><a href="/inv/add-classification">Add Classification</a></li>
+        <li><a href="/inv/add-inventory">Add Vehicle</a></li>
+      </ul>
+    </section>
+  <% } %>
 </main>

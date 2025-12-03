@@ -1,22 +1,6 @@
 <div class="inv-management">
-  <% if (locals.messages) { %>
-    <div class="flash-messages">
-      <%- messages() %>
-    </div>
-  <% } %>
-
-  <h1><%= title %></h1>
-
-  <!-- Links to add classification / inventory -->
-  <nav>
-    <ul class="inv-management__actions">
-      <li><a href="/inv/add-classification">Add New Classification</a></li>
-      <li><a href="/inv/add-inventory">Add New Inventory</a></li>
-    </ul>
-  </nav>
-
   <!-- Manage Inventory heading -->
-  <h2>Manage Inventory</h2>
+  <h1>Manage Inventory</h1>
 
   <!-- Instruction paragraph -->
   <p>Select a classification from the list to see the items belonging to that classification.</p>

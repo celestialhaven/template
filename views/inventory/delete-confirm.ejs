@@ -67,16 +67,12 @@
       >
     </div>
 
+    <!-- Hidden primary key for delete -->
+    <input type="hidden" name="inv_id" value="<%= inv_id %>">
+
     <!-- Submit button: Delete -->
     <button type="submit" class="btn btn-primary">
       Delete Vehicle
     </button>
-
-    <!-- Hidden primary key for delete -->
-    <input
-      type="hidden"
-      name="inv_id"
-      <% if (locals.inv_id) { %> value="<%= locals.inv_id %>" <% } %>
-    >
   </form>
 </div>

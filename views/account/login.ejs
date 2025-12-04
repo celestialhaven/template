@@ -5,57 +5,57 @@
         </div>
         <% } %>
 
-        <% if (typeof errors !=="undefined" && errors.length> 0) { %>
-            <ul class="notice">
-                <% errors.forEach(error=> { %>
-                    <li>
-                        <%= error.msg %>
-                    </li>
-                    <% }) %>
-            </ul>
-            <% } %>
+    <% if (Array.isArray(errors) && errors.length> 0) { %>
+        <ul class="notice">
+            <% errors.forEach(error=> { %>
+                <li>
+                    <%= error.msg %>
+                </li>
+            <% }) %>
+        </ul>
+    <% } %>
 
-            <h1>
-                <%= title %>
-            </h1>
+    <h1>
+        <%= title %>
+    </h1>
 
-            <section class="account-login__card">
-                <p class="account-login__intro">
-                    Please sign in with your email and password to access your account. All fields are required.
-                </p>
+    <section class="account-login__card">
+        <p class="account-login__intro">
+            Please sign in with your email and password to access your account. All fields are required.
+        </p>
 
-                <form action="/account/login" method="post" class="account-login__form">
-                    <!-- Email -->
-                    <div class="form-group">
-                        <label for="account_email">Email Address</label>
-                        <input type="email" id="account_email" name="account_email" placeholder="jane.doe@domain.com" required
-                            value="<%= typeof account_email !== 'undefined' ? account_email : '' %>">
-                    </div>
+        <form action="/account/login" method="post" class="account-login__form">
+            <!-- Email -->
+            <div class="form-group">
+                <label for="account_email">Email Address</label>
+                <input type="email" id="account_email" name="account_email" placeholder="jane.doe@domain.com" required
+                    value="<%= typeof account_email !== 'undefined' ? account_email : '' %>">
+            </div>
 
-                    <!-- Password -->
-                    <div class="form-group">
-                        <label for="account_password">Password</label>
+            <!-- Password -->
+            <div class="form-group">
+                <label for="account_password">Password</label>
 
-                        <!-- Same reminder as registration view -->
-                        <div id="passwordLoginHelp" class="form-text password-help">
-                            <p>Passwords must be at least 12 characters and contain at least
-                            1 number, 1 capital letter, and 1 special character.</p>
-                        </div>
+                <!-- Same reminder as registration view -->
+                <div id="passwordLoginHelp" class="form-text password-help">
+                    <p>Passwords must be at least 12 characters and contain at least
+                    1 number, 1 capital letter, and 1 special character.</p>
+                </div>
 
-                        <input type="password" id="account_password" name="account_password"
-                            placeholder="Enter your password" required aria-describedby="passwordLoginHelp"
-                            pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
-                            title="At least 12 characters with 1 number, 1 uppercase letter, and 1 special character.">
-                    </div>
+                <input type="password" id="account_password" name="account_password"
+                    placeholder="Enter your password" required aria-describedby="passwordLoginHelp"
+                    pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
+                    title="At least 12 characters with 1 number, 1 uppercase letter, and 1 special character.">
+            </div>
 
-                    <button type="submit" class="btn btn-primary">
-                        Login
-                    </button>
-                </form>
+            <button type="submit" class="btn btn-primary">
+                Login
+            </button>
+        </form>
 
-                <p class="account-login__register">
-                    Don’t have an account yet?
-                    <a href="/account/register">Create an account</a>
-                </p>
-            </section>
+        <p class="account-login__register">
+            Don’t have an account yet?
+            <a href="/account/register">Create an account</a>
+        </p>
+    </section>
 </main>

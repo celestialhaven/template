@@ -164,6 +164,24 @@ async function deleteInventory(inv_id) {
   }
 }
 
+/* ***************************
+ *  Get a single classification name by id
+ * ************************** */
+async function getClassificationNameById(classification_id) {
+  try {
+    const sql = `
+      SELECT classification_name
+      FROM public.classification
+      WHERE classification_id = $1
+    `
+    const data = await pool.query(sql, [classification_id])
+    return data.rows[0] ? data.rows[0].classification_name : null
+  } catch (error) {
+    console.error("getClassificationNameById error " + error)
+    return null
+  }
+}
+
 
 module.exports = {
   getClassifications,
@@ -172,5 +190,6 @@ module.exports = {
   addClassification,
   addInventory,
   updateInventory,
-  deleteInventory
+  deleteInventory,
+  getClassificationNameById
 };

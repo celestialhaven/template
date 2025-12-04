@@ -8,12 +8,29 @@ const invCont = {}
  * ************************** */
 invCont.buildByClassificationId = async function (req, res, next) {
   const classification_id = req.params.classificationId
+
+  // vehicles for this classification
   const data = await invModel.getInventoryByClassificationId(classification_id)
   const grid = await utilities.buildClassificationGrid(data)
-  let nav = await utilities.getNav()
-  const className = data[0].classification_name
-  res.render("./inventory/classification", {
-    title: className + " vehicles",
+  const nav = await utilities.getNav()
+
+  // always try to get the classification name
+  let className = null
+
+  // if there are vehicles, name is in the joined row
+  if (data && data.length > 0 && data[0].classification_name) {
+    className = data[0].classification_name
+  } else {
+    // otherwise, look it up directly from classification table
+    className = await invModel.getClassificationNameById(classification_id)
+  }
+
+  const title = className
+    ? `${className} vehicles`          // e.g. "Baobao vehicles"
+    : "Vehicles by Classification"     // fallback if somehow not found
+
+  return res.render("./inventory/classification", {
+    title,
     nav,
     grid,
   })
@@ -47,7 +64,7 @@ invCont.buildByInvId = async function (req, res, next) {
  *  Inventory Management View
  * ************************** */
 invCont.buildManagementView = async function (req, res, next) {
-  let nav = await utilities.getNav()
+  const nav = await utilities.getNav()
   const classificationSelect = await utilities.buildClassificationList()
 
   return res.render("inventory/management", {
@@ -364,15 +381,20 @@ invCont.deleteInventory = async function (req, res, next) {
   const { inv_make, inv_model } = req.body
   const itemName = `${inv_make} ${inv_model}`
 
-  const deleteResult = await invModel.deleteInventory(inv_id)
+  try {
+    const deleteResult = await invModel.deleteInventory(inv_id)
 
-  if (deleteResult) {
-    req.flash("notice", `The ${itemName} was successfully deleted.`)
-    return res.redirect("/inv/")
-  } else {
-    req.flash("notice", "Sorry, the delete failed.")
-    return res.redirect(`/inv/delete/${inv_id}`)
+    if (deleteResult) {
+      req.flash("notice", `The ${itemName} was successfully deleted.`)
+      return res.redirect("/inv/")
+    } else {
+      req.flash("notice", "Sorry, the delete failed.")
+      return res.redirect(`/inv/delete/${inv_id}`)
+    }
+  } catch (error) {
+    return next(error)
   }
 }
+
 
 module.exports = invCont

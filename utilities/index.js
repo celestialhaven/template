@@ -215,24 +215,23 @@ Util.checkLogin = (req, res, next) => {
  * ************************************ */
 Util.checkEmployeeOrAdmin = (req, res, next) => {
   const accountData = res.locals.accountData
+  const loggedin = res.locals.loggedin
 
-  // Not logged in
-  if (!accountData) {
-    req.flash("notice", "Please log in to access that page.")
+  // Not logged in at all
+  if (!loggedin || !accountData) {
+    req.flash("notice", "Please log in to access inventory management.")
     return res.redirect("/account/login")
   }
 
-  // Logged in but wrong role
-  if (
-    accountData.account_type !== "Employee" &&
-    accountData.account_type !== "Admin"
-  ) {
-    req.flash("notice", "You are not authorized to view that page.")
-    return res.redirect("/account/")
+  // Role check
+  const role = accountData.account_type
+  if (role === "Employee" || role === "Admin") {
+    return next()
   }
 
-  // Authorized
-  next()
+  // Logged in, but improper role
+  req.flash("notice", "You are not authorized to view this page.")
+  return res.redirect("/account/login")
 }
 
 /* ***************

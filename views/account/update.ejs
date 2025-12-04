@@ -1,0 +1,140 @@
+<div class="account-update">
+  <!-- Flash messages -->
+  <% if (locals.messages && typeof messages === "function") { %>
+    <div class="flash-messages">
+      <%- messages() %>
+    </div>
+  <% } %>
+
+  <!-- Validation errors -->
+  <% if (Array.isArray(errors) && errors.length > 0) { %>
+    <ul class="notice">
+      <% errors.forEach(error => { %>
+        <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+  <% } %>
+
+  <h1><%= title %></h1>
+
+  <!-- =======================
+       Account Update Form
+       ======================= -->
+  <section class="account-update__section">
+    <h2>Account Update</h2>
+    <p>Update your name and email address below.</p>
+
+    <form
+      id="account-update-form"
+      action="/account/update"
+      method="post"
+      class="account-update__form"
+      novalidate
+    >
+      <!-- Hidden fields -->
+      <input type="hidden" name="account_id" value="<%= account_id %>">
+      <input type="hidden" name="current_email" value="<%= account_email %>">
+
+      <!-- First Name -->
+      <div class="form-group">
+        <label for="account_firstname">First Name</label>
+        <input
+          type="text"
+          id="account_firstname"
+          name="account_firstname"
+          required
+          minlength="1"
+          autocomplete="given-name"
+          value="<%= account_firstname || '' %>"
+        >
+      </div>
+
+      <!-- Last Name -->
+      <div class="form-group">
+        <label for="account_lastname">Last Name</label>
+        <input
+          type="text"
+          id="account_lastname"
+          name="account_lastname"
+          required
+          minlength="2"
+          autocomplete="family-name"
+          value="<%= account_lastname || '' %>"
+        >
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label for="account_email">Email Address</label>
+        <input
+          type="email"
+          id="account_email"
+          name="account_email"
+          required
+          autocomplete="email"
+          value="<%= account_email || '' %>"
+        >
+      </div>
+
+      <div class="form-actions">
+        <button id="saveAccountBtn" type="submit">
+          Save Account Changes
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <!-- =======================
+       Change Password Form
+       ======================= -->
+  <section class="account-update__section">
+    <h2>Change Password</h2>
+    <p>
+      Enter a new password below to replace your current password. Your
+      password must:
+    </p>
+    <ul class="password-requirements">
+      <li>Be at least 12 characters long</li>
+      <li>Contain at least one uppercase letter</li>
+      <li>Contain at least one lowercase letter</li>
+      <li>Contain at least one number</li>
+      <li>Contain at least one special character (e.g., !@#$%^&amp;*)</li>
+    </ul>
+
+    <form
+      action="/account/update-password"
+      method="post"
+      class="account-update__form"
+      novalidate
+    >
+      <!-- account_id for password change -->
+      <input type="hidden" name="account_id" value="<%= account_id %>">
+
+      <div class="form-group">
+        <label for="account_password">New Password</label>
+        <input
+          type="password"
+          id="account_password"
+          name="account_password"
+          required
+          minlength="12"
+          autocomplete="new-password"
+          pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).{12,}$"
+        >
+      </div>
+
+      <p class="form-help">
+        For your security, the current password is never shown.
+        Entering a new password here will replace your existing password once saved.
+      </p>
+
+      <div class="form-actions">
+        <button type="submit">Update Password</button>
+      </div>
+    </form>
+  </section>
+  <!-- External JS that disables the Save button until changes are made -->
+  <script src="/js/account-update.js"></script>
+</div>
+
+

@@ -1,55 +1,48 @@
-<main class="account-management">
-  <h1><%= title %></h1>
+<div class="account-management">
 
-  <!-- Flash message (notice) -->
-  <% if (locals.notice && notice.length > 0) { %>
-    <div class="notice">
-      <% notice.forEach(function (msg) { %>
-        <p><%= msg %></p>
-      <% }) %>
-    </div>
-  <% } %>
-
-  <!-- Global flash messages (if you're using messages() in layout) -->
+  <!-- Flash Messages -->
   <% if (locals.messages) { %>
     <div class="flash-messages">
       <%- messages() %>
     </div>
   <% } %>
 
-  <!-- Validation / other errors -->
-  <% if (locals.errors && errors.length > 0) { %>
-    <div class="errors">
-      <ul>
-        <% errors.forEach(function (error) { %>
-          <li><%= error.msg %></li>
-        <% }) %>
-      </ul>
+  <% 
+    const user = locals.accountData;
+    const isStaff = user && (user.account_type === "Employee" || user.account_type === "Admin");
+  %>
+
+  <!-- Greeting -->
+  <h2 class="account-greeting">Welcome <%= user.account_firstname %></h2>
+
+  <!-- Update Account Link (ALL USERS) -->
+  <p class="account-links">
+    <a class="btn btn-primary account-link" href="/account/update/<%= user.account_id %>">
+      Update Account Information
+    </a>
+  </p>
+
+  <!-- Staff-Only Section -->
+  <% if (isStaff) { %>
+
+    <h3 class="inventory-title">Inventory Management</h3>
+
+    <div class="inventory-links">
+
+      <a class="btn btn-primary inventory-link" href="/inv/">
+        Inventory Dashboard
+      </a>
+
+      <a class="btn btn-primary inventory-link" href="/inv/add-classification">
+        Add Classification
+      </a>
+
+      <a class="btn btn-primary inventory-link" href="/inv/add-inventory">
+        Add Vehicle
+      </a>
+
     </div>
+
   <% } %>
 
-  <p>You're logged in.</p>
-
-  <% if (accountData) { %>
-    <p>
-      Welcome,
-      <strong><%= accountData.account_firstname %> <%= accountData.account_lastname %></strong>
-      (<%= accountData.account_type %>)
-    </p>
-  <% } %>
-
-  <!-- Only show inventory tools to Employee / Admin -->
-  <% if (
-       accountData &&
-       (accountData.account_type === 'Employee' || accountData.account_type === 'Admin')
-     ) { %>
-    <section class="account-management__inventory">
-      <h2>Inventory Tools</h2>
-      <ul>
-        <li><a href="/inv/">Inventory Management</a></li>
-        <li><a href="/inv/add-classification">Add Classification</a></li>
-        <li><a href="/inv/add-inventory">Add Vehicle</a></li>
-      </ul>
-    </section>
-  <% } %>
-</main>
+</div>

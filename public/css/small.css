@@ -355,21 +355,6 @@ nav {
     color: #666;
 }
 
-.btn {
-    display: inline-block;
-    padding: 0.6rem 1.5rem;
-    border-radius: 4px;
-    border: none;
-    font-size: 1rem;
-    cursor: pointer;
-}
-
-.btn-primary {
-    background: #316aff;
-    color: #fff;
-    margin-top: 0.5rem;
-}
-
 .btn-primary:hover {
     background: #2551c2;
 }
@@ -419,135 +404,6 @@ nav {
     background: #fff;
 }
 
-/* =============== SHARED FORM LAYOUT (INV FORMS) =============== */
-
-.inv-add-classification,
-.inv-add-inventory {
-    max-width: 720px;
-    margin: 2.5rem auto;
-    padding: 2rem 1.5rem;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-}
-
-.inv-add-classification h1,
-.inv-add-inventory h1 {
-    font-size: clamp(1.6rem, 2vw + 1rem, 2rem);
-    margin-bottom: 0.75rem;
-}
-
-.inv-add-classification p,
-.inv-add-inventory p {
-    margin-bottom: 1.25rem;
-    line-height: 1.5;
-}
-
-/* Flash messages and validation errors */
-.flash-messages {
-    margin-bottom: 1rem;
-}
-
-.flash-messages .notice,
-.inv-add-classification .notice,
-.inv-add-inventory .notice {
-    margin: 0 0 1rem;
-    padding: 0.75rem 1rem;
-    border-radius: 6px;
-    background-color: #fff4e5;
-    border: 1px solid #f0c087;
-    color: #7a4b1c;
-    list-style: none;
-}
-
-.inv-add-classification .notice li,
-.inv-add-inventory .notice li {
-    margin-left: 1rem;
-}
-
-/* =============== FORM BASE STYLES =============== */
-
-.inv-add-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-}
-
-.inv-add-form .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-}
-
-.inv-add-form label {
-    font-weight: 600;
-    font-size: 0.95rem;
-}
-
-.inv-add-form input,
-.inv-add-form select,
-.inv-add-form textarea {
-    width: 100%;
-    padding: 0.55rem 0.75rem;
-    font-size: 0.95rem;
-    border-radius: 4px;
-    border: 1px solid #cfd4dc;
-    background-color: #fff;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease,
-        background-color 0.15s ease;
-    box-sizing: border-box;
-}
-
-.inv-add-form input:focus,
-.inv-add-form select:focus,
-.inv-add-form textarea:focus {
-    outline: none;
-    border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-    background-color: #ffffff;
-}
-
-/* Textarea */
-.inv-add-form textarea {
-    min-height: 120px;
-    resize: vertical;
-}
-
-/* Classification select */
-#classificationList {
-    max-width: 100%;
-}
-
-/* Button */
-.inv-add-form .btn,
-.inv-add-form .btn-primary {
-    align-self: flex-start;
-    padding: 0.6rem 1.4rem;
-    border-radius: 4px;
-    border: none;
-    font-weight: 600;
-    cursor: pointer;
-    font-size: 0.95rem;
-    background-color: #2563eb;
-    color: #ffffff;
-    transition: background-color 0.15s ease, box-shadow 0.15s ease,
-        transform 0.08s ease;
-}
-
-.inv-add-form .btn-primary:hover,
-.inv-add-form .btn:hover {
-    background-color: #1d4ed8;
-    box-shadow: 0 3px 10px rgba(37, 99, 235, 0.25);
-    transform: translateY(-1px);
-}
-
-.inv-add-form .btn-primary:active,
-.inv-add-form .btn:active {
-    transform: translateY(0);
-    box-shadow: none;
-}
-
-
 /* ========================= */
 /* Inventory Management Page */
 /* ========================= */
@@ -558,14 +414,14 @@ nav {
     font-family: Arial, sans-serif;
 }
 
-.inv-management h2,
-.inv-management h1 {
+.inv-management h2 {
+    margin-top: 60px;
     margin-bottom: 1rem;
     font-weight: bold;
 }
 
-.inv-management h2 {
-    margin-top: 60px;
+.inv-management p {
+    margin-bottom: 1rem;
 }
 
 .classification-select-wrapper {
@@ -607,7 +463,7 @@ nav {
     background-color: #f0f8ff;
 }
 
-/* Action links */
+/* Action links (Modify / Delete) */
 #inventoryDisplay a {
     margin-left: 1rem;
     color: #0066cc;
@@ -625,6 +481,353 @@ nav {
     padding: 1rem;
     font-style: italic;
     color: #444;
+}
+
+/* =============== SHARED FORM LAYOUT (INV FORMS) =============== */
+
+/* Card container for all inventory forms: add, edit, delete */
+.inv-add-classification,
+.inv-add-inventory,
+.inv-edit-inventory,
+.inv-delete-inventory {
+    max-width: 720px;
+    margin: 2.5rem auto;
+    padding: 2rem 1.5rem;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px,
+        rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}
+
+/* Headings for all inv forms */
+.inv-add-classification h1,
+.inv-add-inventory h1,
+.inv-edit-inventory h1,
+.inv-delete-inventory h1 {
+    font-size: clamp(1.6rem, 2vw + 1rem, 2rem);
+    margin-bottom: 0.75rem;
+}
+
+/* Intro text / instructions */
+.inv-add-classification p,
+.inv-add-inventory p,
+.inv-edit-inventory p,
+.inv-delete-inventory p {
+    margin-bottom: 1.25rem;
+    line-height: 1.5;
+}
+
+/* Flash messages and validation errors */
+.flash-messages {
+    margin-bottom: 1rem;
+}
+
+.flash-messages .notice,
+.inv-add-classification .notice,
+.inv-add-inventory .notice,
+.inv-edit-inventory .notice,
+.inv-delete-inventory .notice {
+    margin: 0 0 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    background-color: #fff4e5;
+    border: 1px solid #f0c087;
+    color: #7a4b1c;
+    list-style: none;
+}
+
+.inv-add-classification .notice li,
+.inv-add-inventory .notice li,
+.inv-edit-inventory .notice li,
+.inv-delete-inventory .notice li {
+    margin-left: 1rem;
+}
+
+/* =============== FORM BASE STYLES =============== */
+
+/* All inv forms share layout */
+.inv-add-form,
+.inv-edit-form,
+.inv-delete-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+/* Form groups */
+.inv-add-form .form-group,
+.inv-edit-form .form-group,
+.inv-delete-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+/* Labels */
+.inv-add-form label,
+.inv-edit-form label,
+.inv-delete-form label {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+/* Inputs, selects, textareas */
+.inv-add-form input,
+.inv-add-form select,
+.inv-add-form textarea,
+.inv-edit-form input,
+.inv-edit-form select,
+.inv-edit-form textarea,
+.inv-delete-form input,
+.inv-delete-form select,
+.inv-delete-form textarea {
+    width: 100%;
+    padding: 0.55rem 0.75rem;
+    font-size: 0.95rem;
+    border-radius: 4px;
+    border: 1px solid #cfd4dc;
+    background-color: #fff;
+    transition: border-color 0.15s ease,
+        box-shadow 0.15s ease,
+        background-color 0.15s ease;
+    box-sizing: border-box;
+}
+
+/* Focus states */
+.inv-add-form input:focus,
+.inv-add-form select:focus,
+.inv-add-form textarea:focus,
+.inv-edit-form input:focus,
+.inv-edit-form select:focus,
+.inv-edit-form textarea:focus,
+.inv-delete-form input:focus,
+.inv-delete-form select:focus,
+.inv-delete-form textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    background-color: #ffffff;
+}
+
+/* Textarea */
+.inv-add-form textarea,
+.inv-edit-form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* Classification select */
+#classificationList {
+    max-width: 100%;
+}
+
+/* Primary buttons on inv forms (Add / Update / Delete) */
+.inv-add-form .btn,
+.inv-add-form .btn-primary,
+.inv-edit-form .btn,
+.inv-edit-form .btn-primary,
+.inv-delete-form .btn,
+.inv-delete-form .btn-primary {
+    align-self: flex-start;
+    padding: 0.6rem 1.4rem;
+    border-radius: 4px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.95rem;
+    background-color: #2563eb;
+    color: #ffffff;
+    transition: background-color 0.15s ease,
+        box-shadow 0.15s ease,
+        transform 0.08s ease;
+}
+
+/* Hover + active states */
+.inv-add-form .btn-primary:hover,
+.inv-add-form .btn:hover,
+.inv-edit-form .btn-primary:hover,
+.inv-edit-form .btn:hover,
+.inv-delete-form .btn-primary:hover,
+.inv-delete-form .btn:hover {
+    background-color: #1d4ed8;
+    box-shadow: 0 3px 10px rgba(37, 99, 235, 0.25);
+    transform: translateY(-1px);
+}
+
+.inv-add-form .btn-primary:active,
+.inv-add-form .btn:active,
+.inv-edit-form .btn-primary:active,
+.inv-edit-form .btn:active,
+.inv-delete-form .btn-primary:active,
+.inv-delete-form .btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+.account-management h3 {
+    margin-top: 30px;
+}
+
+/* FOR UPDATE FORM */
+
+.account-update {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 1rem;
+}
+
+.account-update__card {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+        rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.account-update__section {
+    margin-top: 1.5rem;
+}
+
+.account-update__section h2 {
+    margin-bottom: 0.5rem;
+}
+
+.account-update__intro {
+    margin-bottom: 1rem;
+    color: #555;
+}
+
+.account-update__form .form-group {
+    margin-bottom: 1rem;
+}
+
+/* ============================
+   UPDATE ACCOUNT PAGE STYLES
+   ============================ */
+
+.account-update {
+    max-width: 700px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.account-update h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+.account-update__section {
+    margin-bottom: 3rem;
+}
+
+.account-update__section h2 {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+}
+
+.account-update__section p {
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+/* ============================
+   Form Layout
+   ============================ */
+
+.account-update__form {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+}
+
+.form-group {
+    margin-bottom: 1.2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+}
+
+.form-group input {
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+/* Hover & focus states */
+.form-group input:focus {
+    outline: none;
+    border-color: #0077cc;
+    box-shadow: 0 0 4px rgba(0, 119, 204, 0.3);
+}
+
+/* ============================
+   Buttons
+   ============================ */
+
+.form-actions {
+    margin-top: 1rem;
+}
+
+.form-actions button {
+    background: #0057a3;
+    color: white;
+    font-size: 1rem;
+    padding: 0.7rem 1.4rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+
+.form-actions button:hover {
+    background: #003f7d;
+}
+
+/* ============================
+   Error messages
+   ============================ */
+
+.notice {
+    background: #ffe6e6;
+    border: 1px solid #ff9b9b;
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+    color: #a00000;
+}
+
+.notice li {
+    margin-left: 1rem;
+}
+
+/* ============================
+   Password Requirements List
+   ============================ */
+
+.password-requirements {
+    margin-bottom: 1rem;
+    padding-left: 1.2rem;
+}
+
+.password-requirements li {
+    margin-bottom: 0.3rem;
+}
+
+.form-actions button[disabled],
+.form-actions button.btn-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 footer {

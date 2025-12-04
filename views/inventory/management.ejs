@@ -1,20 +1,33 @@
 <div class="inv-management">
-  <!-- Manage Inventory heading -->
-  <h1>Manage Inventory</h1>
+  <% if (locals.messages) { %>
+    <div class="flash-messages">
+      <%- messages() %>
+    </div>
+  <% } %>
 
-  <!-- Instruction paragraph -->
-  <p>Select a classification from the list to see the items belonging to that classification.</p>
+  <% if (errors && errors.length > 0) { %>
+    <ul class="notice">
+      <% errors.forEach(error => { %>
+        <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+  <% } %>
 
-  <!-- Classification select list from controller -->
+  <h2>Manage Inventory</h2>
+
+  <p>
+    Select a classification from the list to see the items belonging to that classification.
+  </p>
+
   <div class="classification-select-wrapper">
     <%- classificationSelect %>
   </div>
 
-  <!-- Empty table for JS to populate -->
+  <!-- Table that inventory.js will populate -->
   <table id="inventoryDisplay"></table>
 
-  <!-- noscript message -->
   <noscript>JavaScript must be enabled to use this page.</noscript>
 
-  <script src="../../js/inventory.js"></script>
+  <!-- path from /inv/ to public/js/inventory.js -->
+  <script src="/js/inventory.js"></script>
 </div>

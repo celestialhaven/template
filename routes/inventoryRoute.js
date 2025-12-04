@@ -32,39 +32,28 @@ router.get(
   utilities.handleErrors(invController.buildManagementView)
 )
 
-/* ***************************
- *  Get inventory by classification as JSON
- *  (used by management page – PROTECTED)
- * ************************** */
+// JSON inventory list for management (PROTECTED)
 router.get(
   "/getInventory/:classification_id",
   utilities.checkEmployeeOrAdmin,
   utilities.handleErrors(invController.getInventoryJSON)
 )
 
-/* ***************************
- *  Edit inventory item view
- *  URL example: /inv/edit/3  (PROTECTED)
- * ************************** */
+// Edit inventory view (PROTECTED)
 router.get(
   "/edit/:inv_id",
   utilities.checkEmployeeOrAdmin,
   utilities.handleErrors(invController.buildEditInventoryView)
 )
 
-/* ***************************
- *  Delete inventory item view
- *  URL example: /inv/delete/3  (PROTECTED)
- * ************************** */
+// Delete confirmation view (PROTECTED)
 router.get(
   "/delete/:inv_id",
   utilities.checkEmployeeOrAdmin,
   utilities.handleErrors(invController.buildDeleteInventoryView)
 )
 
-/* **************
- * Task 2 — Add Classification (PROTECTED)
- * ************** */
+/* Task 2 — Add Classification (PROTECTED) */
 
 // Show form
 router.get(
@@ -82,9 +71,7 @@ router.post(
   utilities.handleErrors(invController.addClassification)
 )
 
-/* **************
- * Task 3 — Add Inventory (PROTECTED)
- * ************** */
+/* Task 3 — Add Inventory (PROTECTED) */
 
 // Show form
 router.get(
@@ -102,27 +89,20 @@ router.post(
   utilities.handleErrors(invController.addInventory)
 )
 
-/* **************
- *  Update Inventory (PROTECTED)
- * ************** */
+/* Update Inventory (PROTECTED) */
 router.post(
   "/update",
   utilities.checkEmployeeOrAdmin,
   invValidate.inventoryRules(),
-  invValidate.checkUpdateData,        // uses the update-specific validator
+  invValidate.checkUpdateData,
   utilities.handleErrors(invController.updateInventory)
 )
 
-/* **************
- *  Delete Inventory (POST, PROTECTED)
- * ************** */
+/* Delete Inventory (POST, PROTECTED) */
 router.post(
   "/delete",
   utilities.checkEmployeeOrAdmin,
   utilities.handleErrors(invController.deleteInventory)
 )
 
-/* **************
- * Export routes
- * ************** */
 module.exports = router
